@@ -30,7 +30,7 @@ from .errors import (
 
 
 class ConfigTree:
-    def __init__(self, strict_mode: bool = False):
+    def __init__(self, strict_mode: bool = False, runtime=None):
         """
         Create a ConfigTree.
 
@@ -43,6 +43,8 @@ class ConfigTree:
 
         # runtime flag to enforce strict path creation behavior
         self.strict_mode: bool = strict_mode
+
+        self.runtime = runtime
 
     def _split(self, path: str) -> List[str]:
         """
@@ -106,13 +108,20 @@ class ConfigTree:
         return node.to_primitive()
     
 
-    def set(self, path: str, value: Any) -> Any:
+    def set(self, path: str, value: Any, _internal: bool = False) -> Any:
         """
         Set a leaf value at `path`. Creates intermediate nodes if permitted.
         Enforces strict rule: a node that currently has children cannot be converted
         into a leaf (error), and a leaf with a value cannot become interior with children.
         Returns the assigned value.
+        
+        CRUD Ruleset : Validate -> Log -> Mutate 
+
+        _internal : If enabled, No WAL logged
+        
         """
+
+        #validate 
         parts = self._split(path)
         if not parts:
             raise ConfigInvalidPathError(path, "Empty path is not allowed.")
@@ -128,8 +137,12 @@ class ConfigTree:
                 path,
                 "Cannot assign value to an interior node; it has children."
             )
+        
+        #log
+        if not _internal and self.runtime:
+            self.runtime.before_set(path, value)
 
-        # Safe to set: assign value and infer type
+        #apply mutation, safe to set: assign value and infer type
         node.value = value
         node.type = Node.infer_type(value)
         
@@ -138,11 +151,16 @@ class ConfigTree:
 
         return node.value
 
-    def delete(self, path: str) -> bool:
+    def delete(self, path: str, _internal: bool = False) -> bool:
         """
         Delete the node at `path`. Returns True if deletion occurred, False if path not found.
         Deleting the root is forbidden.
+        
+        CRUD Ruleset : Validate -> Log -> Mutate 
+        
+        _internal : If enabled, No WAL logged
         """
+        #validate
         parts = self._split(path)
 
         if len(parts) == 1 and parts[0] == "root":
@@ -158,7 +176,12 @@ class ConfigTree:
 
         if key not in parent.children:
             return False
-
+        
+        #log 
+        if not _internal and self.runtime:
+            self.runtime.before_delete(path)
+    
+        #mutate
         parent.children.pop(key)
         return True
 

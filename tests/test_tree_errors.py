@@ -1,4 +1,10 @@
-# tests/test_tree_errors.py
+"""
+ConfigX Testing Suite - test_tree_errors.py
+
+End-to-end tests for ConfigX Defined Errors
+
+Developed & Maintained by Aditya Gaur, 2025
+"""
 import pytest
 
 from configx.core.tree import ConfigTree

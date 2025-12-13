@@ -1,4 +1,10 @@
-# tests/test_tree_basic.py
+"""
+ConfigX Testing Suite - test_tree_basic.py
+
+End-to-end tests for ConfigX Tree methods 
+
+Developed & Maintained by Aditya Gaur, 2025
+"""
 from configx.core.tree import ConfigTree
 
 def test_set_and_get_leaf():
