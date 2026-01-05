@@ -1,4 +1,4 @@
-![ConfigX Banner](assets/banners/banner_configx_contribs.png)
+![ConfigX Banner](assets/banners/banner_configx_contribs.png?raw=true)
 
 # Contributing to ConfigX
 
@@ -157,6 +157,6 @@ git push origin <your-branch-name>
 If you get stuck or have questions:
 
 *  Comment on the specific Issue or Pull Request.
-*  Reach out to the maintainers via email: `adityagaur.home@gmail.com`
+*  Reach out to the maintainers via email: `adityagaur.home@gmail.com`, 
 
 **Happy Coding!**
