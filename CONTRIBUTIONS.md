@@ -33,7 +33,7 @@ We expect all contributors to adhere to our Code of Conduct to ensure a welcomin
 ## [ Development Setup ]
 Before getting started, Please join the official GDG-MUJ Discord Server for contributions, discussions, chat with maintainer, etc. 
 - [Join Discord Server](https://discord.gg/hfRFC9Q6)
-- [Access the official ConfigX forum in Discord server](https://discord.com/channels/1454562785928151203/1459934860842893312)
+- [Access the official ConfigX forum in Discord server](https://discord.com/channels/1454562785928151203/1454563533235949569)
 
 Next, Follow these steps to set up ConfigX locally for development.
 
